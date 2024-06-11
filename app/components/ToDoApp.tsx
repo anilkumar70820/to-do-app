@@ -33,9 +33,14 @@ const ToDoApp = () => {
     const data = getValues();
     const updatedShow = [...show];
     updatedShow[index] = data;
-    setShow(updatedShow);
-    setEditIndex(null);
-    reset();
+    const checkEmail = show.some((item) => item.email === data.email);
+      if (checkEmail) {
+        alert("Email already exists");
+        } else{
+          setShow(updatedShow);
+          setEditIndex(null);
+          reset();
+        }
   };
 
   const deleteFormData = (index: number) => {
@@ -47,15 +52,21 @@ const ToDoApp = () => {
   const formSubmit = (data: FormData) => {
     if (editIndex !== null) {
       updateFormData(editIndex);
+      const checkEmail = show.some((item) => item.email === data.email);
+      if (checkEmail) {
+        alert("Email already exists");
+        } else{
+          reset();
+        }
     } else {
       const checkEmail = show.some((item) => item.email === data.email);
       if (checkEmail) {
         alert("Email already exists");
       } else {
         setShow([...show, data]);
+      reset();
       }
     }
-    reset();
   };
 
   const editFormData = (index: number) => {
@@ -85,7 +96,7 @@ const ToDoApp = () => {
               {/* =========== FIRST NAME INPUT ========= */}
               <div className="relative">
                 <input
-                  className="w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black"
+                  className={`w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black hover:shadow-lg hover:shadow-green-100 ${errors.firstName && "border-red-500"}`}
                   {...register("firstName", { required: true })}
                   placeholder="First name"
                 />
@@ -98,7 +109,7 @@ const ToDoApp = () => {
               {/* ============ LAST NAME INPUT ============ */}
               <div className="relative">
                 <input
-                  className="w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black"
+                  className={`w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black hover:shadow-lg hover:shadow-green-100 ${errors.lastName && "border-red-500"}`}
                   {...register("lastName", { required: true, minLength: 2 })}
                   placeholder="Last name"
                 />
@@ -111,7 +122,7 @@ const ToDoApp = () => {
               {/* ============= EMAIL INPUT ================= */}
               <div className="relative">
                 <input
-                  className="w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black"
+                  className={`w-full sm:px-4 sm:py-2 px-3 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black hover:shadow-lg hover:shadow-green-100 ${errors.email && "border-red-500"}`}
                   type="text"
                   {...register("email", {
                     required: true,
@@ -133,7 +144,7 @@ const ToDoApp = () => {
               {/* ============= PASSWORD INPUT =============== */}
               <div className="relative">
                 <input
-                  className="w-full ps-3 pe-9 sm:ps-4 sm:py-2 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black"
+                  className={`w-full ps-3 pe-9 sm:ps-4 sm:py-2 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black hover:shadow-lg hover:shadow-green-100 ${errors.password && "border-red-500"}`}
                   type={showPassword ? "text" : "password"}
                   id="password"
                   {...register("password", {
@@ -158,16 +169,16 @@ const ToDoApp = () => {
                   onClick={togglePasswordVisibility}
                 >
                   {showPassword ? (
-                    <FaEyeSlash className="text-danger" />
+                    <FaEyeSlash className="text-red-500" />
                   ) : (
-                    <FaEye className="text-success" />
+                    <FaEye className="text-green-500" />
                   )}
                 </span>
               </div>
               {/* ============= CONFIRM PASSWORD INPUT =========== */}
               <div className="relative">
                 <input
-                  className="w-full ps-3 pe-9 sm:ps-4 sm:py-2 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black"
+                  className={`w-full ps-3 pe-9 sm:ps-4 sm:py-2 py-1 border-2 rounded-lg outline-none hover:border-green-500 duration-300 border-solid border-black hover:shadow-lg hover:shadow-green-100 ${errors.confirmPassword && "border-red-500"}`}
                   type={confirmPassword ? "text":"password"}
                   id="password"
                   {...register("confirmPassword", {
@@ -189,9 +200,9 @@ const ToDoApp = () => {
                   onClick={()=>setconfirmPassword(!confirmPassword)}
                 >
                   {confirmPassword ? (
-                    <FaEyeSlash className="text-danger" />
+                    <FaEyeSlash className="text-red-500" />
                   ) : (
-                    <FaEye className="text-success" />
+                    <FaEye className="text-green-500" />
                   )}
                 </span>
               </div>
@@ -205,7 +216,7 @@ const ToDoApp = () => {
 
           </form>
         </div>
-            {show.length > 0 && (
+            {show.length > 0 ? (
               <div className="block overflow-hidden overflow-x-auto max-w-[700px] mx-auto mt-5">
                 <table className="w-full mt-5 border-2 border-black max-w-[500px] mx-auto">
                   <thead>
@@ -254,7 +265,7 @@ const ToDoApp = () => {
                   </tbody>
                 </table>
               </div>
-            )}
+            ):(<p className="text-xl text-black font-semibold text-center mt-5">No List found!</p>)            }
       </div>
     </div>
   );
