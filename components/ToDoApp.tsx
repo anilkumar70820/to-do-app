@@ -264,7 +264,7 @@ const [option, setoption] = useState<keyof FormData>("firstName");
           <div className="block overflow-hidden overflow-x-auto max-w-[700px] mx-auto p-5 mt-5 rounded-xl bg-black bg-opacity-30">
              <form onSubmit={submitFilter} className="flex justify-center">
           {/* ============= Select =========== */}
-          <select
+          <select aria-label="user-data"
             className="py-2 px-3 rounded-xl outline-none"
             onChange={(e) => setoption(e.target.value as keyof FormData)}
           >

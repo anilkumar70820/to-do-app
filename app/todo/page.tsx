@@ -1,6 +1,6 @@
 
+import ToDoApp from "@/components/ToDoApp";
 import React from "react";
-import ToDoApp from "../components/ToDoApp";
 
 const page = () => {
   return (

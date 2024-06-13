@@ -1,12 +1,12 @@
-import React from 'react'
-import FilterSearch from '../components/FilterSearch'
+import FilterSearch from "@/components/FilterSearch";
+import React from "react";
 
 const page = () => {
   return (
     <div>
-     <FilterSearch/>
+      <FilterSearch />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
